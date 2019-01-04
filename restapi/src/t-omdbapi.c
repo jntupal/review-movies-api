@@ -228,7 +228,8 @@ int main(int argc, char *argv[])
     memset(&verdict, 0, sizeof(verdict_rec_t));
 	
     // Read the response and perform the parsing on it.
-	while (read(fd, buffer, RECV_BUFF_SIZE - 1) != 0) {
+	while ((verdict.rt_score == FALSE) && 
+           read(fd, buffer, RECV_BUFF_SIZE - 1) != 0) {
 #ifdef DEBUG
         fprintf(stdout, "%s", buffer);
 #endif /* DEBUG */

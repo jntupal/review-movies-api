@@ -14,16 +14,16 @@ SRCS = \
 SRCS_OBJ = \
     src/t-omdbapi.o
 
-%.o: %.c 
-    $(CC) -c -o $@ $< $(CFLAGS)
+%.o: %.c
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 t-omdbapi: $(SRCS_OBJ)
-    gcc $(CFLAGS) $(LIBS) $(SRCS) -o $(BIN)/$@
+	$(CC) $(CFLAGS) $(LIBS) $(SRCS) -o $(BIN)/$@
 
 all: $(SRCS_OBJ) t-omdbapi
-    
+	
 .PHONY: clean
 
 clean:
-    rm -f $(SRCS_OBJ) t-omdbapi
+	rm -f $(SRCS_OBJ) t-omdbapi
     
