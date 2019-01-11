@@ -39,10 +39,11 @@
 #define  FALSE 0
 
 #define MSG1 "GET /?t="
-#define MSG2 "&apikey=bd761d92 HTTP/1.1\r\nHost: www.omdbapi.com\r\n\r\n\r\n"
+#define MSG2 "&apikey=DEADBEEF HTTP/1.1\r\nHost: www.omdbapi.com\r\n\r\n\r\n"
 #define GET_REQ_LEN strlen (GET_REQ)
 #define DST_HOSTNAME    "www.omdbapi.com"
 #define DST_PORT        80
+#define APIKEY_LEN      8
 
 // Record for holding the verdict information
 // for requested movie.
@@ -180,12 +181,12 @@ int main(int argc, char *argv[])
     int i, fd, rc;
 	char buffer[RECV_BUFF_SIZE];
     char *get_req = NULL;
-    char *p;
+    char *p, *key_p;
     
     // Usage description
-	if (argc < 2) {
-		fprintf(stderr, "Usage: %s <Movie name, if multiple words, put into \" \">\n",
-                argv[0]);
+	if (argc < 3) {
+		fprintf(stderr, "Usage: %s <Movie name, if multiple words, put into \" \">"
+                " <API-KEY>\n", argv[0]);
 		exit(1);
 	}
 
@@ -207,6 +208,10 @@ int main(int argc, char *argv[])
         i++;
     }
     bytes += snprintf(get_req + bytes, get_reqlen - bytes, "%s", MSG2); 
+    key_p = strstr(get_req, "DEADBEEF");
+    if (key_p) {
+        memcpy(key_p, argv[2], APIKEY_LEN);
+    }
 #ifdef DEBUG
     printf ("REQ:%s, len: %d\n", get_req, bytes);
 #endif /* DEBUG */
